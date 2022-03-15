@@ -10,18 +10,26 @@ class HelloController extends Controller
 {
   public function index(Request $request)
   {
-    $item = DB::select('select * form people');
-      return view('hello.index',['items'=>$items]);
+      $items = DB::select('select * from people');
+    return view ('hello.index',['items'=>$items]);
+    }
+  public function add(Request $request)
+  {
+   return view('hello.app');
   }
   public function post(Request $request)
   {
-    $validate_rule =[
-      'msg'=>'required',
-    ];
-    $this->validate($request,$validate_rule);
-    $msg = $request->msg;
-    $response = response()->view('hello.index',['msg'=>'['.$msg.'」クッキーに保存しました。']);
-    $reaponse->cookie('msg',$msg,100);
-    return view('hello.index',['msg'=>'正しく入力されました。']);
-  }
+    $itmes = DB::select('select * from people');
+    return view('hello.index',['items'=>$items]);
 }
+ public function create(Request $request)
+ {
+  $param = [
+    'name' => $request->name,
+    'mail' => $request->mail,
+    'age' => $request->age,
+  ];
+  DB::insert('insert int peopele (name,mail,age) values (:name, :mail, :age)',$param);
+  return redirect('/hello');
+ }
+  }
